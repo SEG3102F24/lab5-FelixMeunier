@@ -3,6 +3,8 @@ import { AbstractControl, FormBuilder, Validators, ReactiveFormsModule } from "@
 import {EmployeeService} from "../service/employee.service";
 import { Router, RouterLink } from "@angular/router";
 import {Employee} from "../model/employee";
+import { v4 as uuidv4 } from 'uuid';
+
 
 @Component({
     selector: 'app-employee',
@@ -39,11 +41,11 @@ export class EmployeeComponent{
       new Date(this.dateOfBirth.value),
       this.city.value,
       this.salary.value,
-      "0",
+      uuidv4(),
       this.gender.value,
       this.email.value);
     this.employeeService.createEmployee(employee);
-    this.fireSave.emit(employee);
+//     this.fireSave.emit(employee);
     this.employeeForm.reset();
     this.router.navigate(['/employees']).then(() => {});
   }
