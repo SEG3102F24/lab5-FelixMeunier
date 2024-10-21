@@ -15,8 +15,6 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class EmployeeComponent{
 
-  @Output() fireSave: EventEmitter<Employee> = new EventEmitter();
-
   private builder: FormBuilder = inject(FormBuilder);
   private employeeService: EmployeeService = inject(EmployeeService);
   private router: Router = inject(Router);
@@ -45,7 +43,6 @@ export class EmployeeComponent{
       this.gender.value,
       this.email.value);
     this.employeeService.createEmployee(employee);
-//     this.fireSave.emit(employee);
     this.employeeForm.reset();
     this.router.navigate(['/employees']).then(() => {});
   }
