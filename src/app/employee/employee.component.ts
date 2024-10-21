@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, EventEmitter, Input, Output} from '@angular/core';
 import { AbstractControl, FormBuilder, Validators, ReactiveFormsModule } from "@angular/forms";
 import {EmployeeService} from "../service/employee.service";
 import { Router, RouterLink } from "@angular/router";
@@ -11,7 +11,10 @@ import {Employee} from "../model/employee";
     standalone: true,
     imports: [RouterLink, ReactiveFormsModule]
 })
-export class EmployeeComponent {
+export class EmployeeComponent{
+
+  @Output() fireSave: EventEmitter<Employee> = new EventEmitter();
+
   private builder: FormBuilder = inject(FormBuilder);
   private employeeService: EmployeeService = inject(EmployeeService);
   private router: Router = inject(Router);
@@ -36,9 +39,11 @@ export class EmployeeComponent {
       new Date(this.dateOfBirth.value),
       this.city.value,
       this.salary.value,
+      "0",
       this.gender.value,
       this.email.value);
-    this.employeeService.addEmployee(employee);
+    this.employeeService.createEmployee(employee);
+    this.fireSave.emit(employee);
     this.employeeForm.reset();
     this.router.navigate(['/employees']).then(() => {});
   }
